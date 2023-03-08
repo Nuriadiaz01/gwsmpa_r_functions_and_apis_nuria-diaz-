@@ -87,7 +87,7 @@ First step to using it is loading your API Key credential. You thankfully only h
 
 # uncomment to run, then recomment it out so you don't run it every time
 
-# census_api_key("APIKEYCODE", install=TRUE)
+census_api_key("APIKEYCODE", install=TRUE)
 
 
 ```
@@ -100,7 +100,7 @@ How might we get around that? Well there are a few ways, but one of the best and
 
 # uncomment the line below to run - this assumes your key is saved in your .Renviron file
 
-# census_api_key(Sys.getenv("MYCENSUSAPIKEY"), install=TRUE)
+ census_api_key(Sys.getenv("MYCENSUSAPIKEY"), install=TRUE)
 
 ```
 
@@ -330,3 +330,55 @@ saveRDS(allcounties_wide, here("data", "allcounties_wide_demographics.rds"))
 
 ```
 
+#practice exc in class: 
+
+```
+
+            myvars <- c(totalpop = "B01003_001",
+            total_foster_child = "B09019_024", 
+            total_highschool_graduate = "B07009_003")
+
+allcounties_wide <- get_acs(geography = "county",
+                         variables = c(myvars),
+                         output = "wide",
+                         geometry = TRUE)
+                         
+                         allcounties_wide <- allcounties_wide %>%
+  select(-ends_with("M"))
+
+names(allcounties_wide)
+
+allcounties_wide <- allcounties_wide %>%
+  mutate(
+    pct_total_highschoolgraduate = round_half_up(total_highschool_graduate /   total_foster_childe * 100, 2)
+    
+    
+    
+    
+    
+    myvars <- c(totalpop = "B01003_001",
+            total_foster_child = "B09018_008",
+           less_highschool = "B06009PR_002",
+            total_highschool_graduate = "B06009PR_003")
+            allcounties_wide <- get_acs(geography = "county",
+                         variables = c(myvars),
+                         output = "wide",
+                         geometry = TRUE)
+                         
+                         allcounties_wide <- allcounties_wide %>%
+  select(-ends_with("M"))
+  
+  allcounties_wide <- allcounties_wide %>%
+  mutate(
+    county_name = str_split(NAME, ",", simplify = TRUE)[ ,1],
+    state_name = str_split(NAME, ",", simplify = TRUE)[ ,2],
+    state_name = str_trim(state_name)
+    
+    glimpse(allcounties_wide)
+    
+    names(allcounties_wide)
+    
+   #I give up 
+  
+    
+    
